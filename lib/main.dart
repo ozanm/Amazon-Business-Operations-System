@@ -1,121 +1,180 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const AmazonBusinessOperationsSystemApp());
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AmazonBusinessOperationsSystemApp extends StatelessWidget {
+  const AmazonBusinessOperationsSystemApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Amazon Business Operations System',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        useMaterial3: true,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color(0xFF232F3E),
+          primary: const Color(0xFF232F3E),
+          secondary: const Color(0xFFFF9900),
+        ),
+        scaffoldBackgroundColor: const Color(0xFFF5F7FA),
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Color(0xFF232F3E),
+          foregroundColor: Colors.white,
+        ),
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const DashboardScreen(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
+class OperationsModule {
   final String title;
+  final String description;
+  final IconData icon;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  const OperationsModule(this.title, this.description, this.icon);
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+const modules = <OperationsModule>[
+  OperationsModule('Billing & Payments', 'Invoices, transactions, and refunds', Icons.payments_outlined),
+  OperationsModule('Customer Service', 'Tickets, agents, and escalations', Icons.support_agent),
+  OperationsModule('Shipments', 'Delivery tracking and carriers', Icons.local_shipping_outlined),
+  OperationsModule('Warehouse Management', 'Inventory and storage locations', Icons.warehouse_outlined),
+  OperationsModule('Video Streaming', 'Content and viewing history', Icons.movie_outlined),
+  OperationsModule('Audio Streaming', 'Music, albums, and playlists', Icons.library_music_outlined),
+  OperationsModule('Customer Support System', 'Live chat and help articles', Icons.forum_outlined),
+  OperationsModule('Product & Service Comments', 'Ratings, comments, and reports', Icons.rate_review_outlined),
+  OperationsModule('Corporate Relationships', 'Offices, vendors, and partnerships', Icons.account_tree_outlined),
+];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+class DashboardScreen extends StatelessWidget {
+  const DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
-      ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
-          children: [
-            const Text('You have pushed the button this many times:'),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
+      appBar: AppBar(title: const Text('Amazon Business Operations System')),
+      drawer: Drawer(
+        child: SafeArea(
+          child: ListView(
+            children: [
+              const ListTile(
+                title: Text('Operations', style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text('Select a module'),
+              ),
+              const Divider(),
+              for (final module in modules)
+                ListTile(
+                  leading: Icon(module.icon),
+                  title: Text(module.title),
+                  onTap: () {
+                    Navigator.pop(context);
+                    _openModule(context, module);
+                  },
+                ),
+            ],
+          ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final columns = constraints.maxWidth >= 1000
+              ? 3
+              : constraints.maxWidth >= 600
+                  ? 2
+                  : 1;
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              const Text('Operations Dashboard',
+                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 8),
+              const Text('Select a business area to explore its tools and workflows.'),
+              const SizedBox(height: 24),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: modules.length,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: columns,
+                  mainAxisExtent: 180,
+                  crossAxisSpacing: 14,
+                  mainAxisSpacing: 14,
+                ),
+                itemBuilder: (context, index) {
+                  final module = modules[index];
+                  return Card(
+                    clipBehavior: Clip.antiAlias,
+                    child: InkWell(
+                      onTap: () => _openModule(context, module),
+                      child: Padding(
+                        padding: const EdgeInsets.all(18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(module.icon, size: 34, color: Theme.of(context).colorScheme.primary),
+                            const Spacer(),
+                            Text(module.title,
+                                style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
+                            const SizedBox(height: 6),
+                            Text(module.description,
+                                maxLines: 2, overflow: TextOverflow.ellipsis),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  void _openModule(BuildContext context, OperationsModule module) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (_) => ModulePlaceholderScreen(module: module)),
+    );
+  }
+}
+
+class ModulePlaceholderScreen extends StatelessWidget {
+  final OperationsModule module;
+
+  const ModulePlaceholderScreen({super.key, required this.module});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text(module.title)),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(module.icon, size: 72, color: Theme.of(context).colorScheme.primary),
+              const SizedBox(height: 18),
+              Text(module.title,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineSmall),
+              const SizedBox(height: 8),
+              Text(module.description, textAlign: TextAlign.center),
+              const SizedBox(height: 18),
+              const Chip(label: Text('Module under development')),
+              const SizedBox(height: 12),
+              FilledButton.icon(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(Icons.arrow_back),
+                label: const Text('Back to dashboard'),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
