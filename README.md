@@ -1,5 +1,7 @@
 # Amazon-Business-Operations-System
-For our Introduction to Cloud Computing class, this is a cross-platform application with the screens and functionality to support Amazon's daily business operations. It includes Billing and Payments, Customer Service, Shipments, Warehouse Management, Video Streaming Service, Audio Streaming, and more. It is powered on the Flutter framework.
+A collaborative Flutter application developed for the Introduction to Cloud Computing course.
+
+The project aims to simulate various Amazon business operations through a modular application architecture. Each team is responsible for developing their assigned functionality while contributing to a shared codebase.
 
 # amazon_business_operations_system
 
@@ -18,10 +20,6 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
-
-# Amazon Business Operations System
-
-A collaborative Flutter application developed for the **Introduction to Cloud Computing** course.
 
 ## Proposed Project Architecture
 
